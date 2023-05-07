@@ -10,13 +10,15 @@ const setupDb = async () => {
 
       CREATE TABLE planets (
         id SERIAL NOT NULL PRIMARY KEY,
-        name TEXT NOT NULL
+        name TEXT NOT NULL,
+        image TEXT NOT NULL
       );`
   );
 
   await db.none(`INSERT INTO planets (name) VALUE ('Earth')`);
   await db.none(`INSERT INTO planets (name) VALUE ('Mars')`);
 };
+
 setupDb();
 
 const getAll = async (req: Request, res: Response) => {
@@ -50,6 +52,10 @@ const deleteById = async (req: Request, res: Response) => {
   await db.none(`DELETE FROM planets WHERE id=$1`, Number(id));
 
   res.status(200).json({ msg: "The planet was deleted" });
+};
+const uploadImageById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const planet = await db.one(`SELECT * FROM planets WHERE id=$1;, Number(id)`);
 };
 
 export { getAll, getOneById, create, updateById, deleteById };
