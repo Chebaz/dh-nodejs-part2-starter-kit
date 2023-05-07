@@ -8,7 +8,9 @@ import {
   getOneById,
   updateById,
 } from "./planets.js";
-import { logIn, signUp } from "./users.js";
+import { logIn, signUp, logOut } from "./users.js";
+import authorize from "./authorize.js";
+import "./passport.js";
 const app = express();
 const port = 3000;
 
@@ -19,6 +21,7 @@ app.get("/api/plantes/:id", getOneById);
 app.post("/api/planets", create);
 app.post("/api/users/login", logIn);
 app.post("/api/users/signup", signUp);
+app.get("/api/users/logout", authorize, logOut);
 app.put("api/planets/:id", updateById);
 
 app.delete("/api/planets/:id", deleteById);
